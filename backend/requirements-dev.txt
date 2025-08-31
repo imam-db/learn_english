@@ -1,0 +1,39 @@
+# Development and testing dependencies
+
+# Testing framework
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+pytest-xdist==3.5.0
+httpx==0.25.2  # For testing async HTTP clients
+
+# Code quality and formatting
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
+mypy==1.7.1
+bandit==1.7.5
+
+# Pre-commit hooks
+pre-commit==3.6.0
+
+# Database testing
+pytest-postgresql==5.0.0
+factory-boy==3.3.0
+
+# Performance testing
+locust==2.17.0
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.4.8
+
+# Development utilities
+ipython==8.17.2
+rich==13.7.0
+typer==0.9.0
+
+# Type stubs
+types-redis==4.6.0.11
+types-requests==2.31.0.10

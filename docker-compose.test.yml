@@ -1,0 +1,82 @@
+# Docker Compose configuration for testing environment
+version: '3.8'
+
+services:
+  # PostgreSQL Database for testing
+  postgres-test:
+    image: postgres:15-alpine
+    container_name: english_learning_postgres_test
+    environment:
+      POSTGRES_DB: english_learning_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - test_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Redis Cache for testing
+  redis-test:
+    image: redis:7-alpine
+    container_name: english_learning_redis_test
+    ports:
+      - "6380:6379"
+    networks:
+      - test_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Backend API for testing
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: english_learning_backend_test
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-test:5432/english_learning_test
+      - REDIS_URL=redis://redis-test:6379/0
+      - ENVIRONMENT=test
+      - SECRET_KEY=test-secret-key-for-ci
+    ports:
+      - "8001:8000"
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    networks:
+      - test_network
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  # Frontend for testing
+  frontend-test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: english_learning_frontend_test
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend-test:8000
+      - NODE_ENV=test
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend-test
+    networks:
+      - test_network
+    command: npm run build && npm start
+
+networks:
+  test_network:
+    driver: bridge

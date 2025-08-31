@@ -1,0 +1,60 @@
+# Core FastAPI and ASGI server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+gunicorn==21.2.0
+
+# Database and ORM
+sqlalchemy==2.0.23
+alembic==1.12.1
+asyncpg==0.29.0
+psycopg2-binary==2.9.9
+
+# Redis and caching
+redis==5.0.1
+hiredis==2.2.3
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+bcrypt==4.1.2
+
+# Data validation and serialization
+pydantic==2.5.0
+pydantic-settings==2.1.0
+email-validator==2.1.0
+
+# Background tasks
+celery==5.3.4
+flower==2.0.1
+
+# HTTP client
+httpx==0.25.2
+aiofiles==23.2.1
+
+# Monitoring and logging
+structlog==23.2.0
+sentry-sdk[fastapi]==1.38.0
+
+# Development and testing utilities
+python-dotenv==1.0.0
+click==8.1.7
+
+# Content processing
+Pillow==10.1.0
+python-magic==0.4.27
+
+# Payment processing (Indonesian gateways)
+midtransclient==1.3.0
+
+# Email
+fastapi-mail==1.4.1
+
+# Rate limiting
+slowapi==0.1.9
+
+# CORS
+fastapi-cors==0.0.6
+
+# OpenAPI documentation
+fastapi-openapi==0.2.2

@@ -31,6 +31,10 @@ class User(Base):
     is_verified = Column(Boolean, default=False, nullable=False)
     is_premium = Column(Boolean, default=False, nullable=False)
     
+    # Role-based access control
+    is_staff = Column(Boolean, default=False, nullable=False)  # Content authors, moderators
+    is_admin = Column(Boolean, default=False, nullable=False)  # System administrators
+    
     # Verification tokens
     verification_token = Column(String(255), nullable=True)
     reset_password_token = Column(String(255), nullable=True)

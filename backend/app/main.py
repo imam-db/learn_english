@@ -11,6 +11,7 @@ import time
 
 from app.core.config import settings
 from app.core.database import init_db, close_db, check_db_health
+from app.api.v1 import get_api_router
 
 
 # Configure logging
@@ -118,7 +119,11 @@ async def root():
     }
 
 
-# API v1 router placeholder
+# Include API v1 router
+api_router = get_api_router()
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# API v1 root endpoint
 @app.get(f"{settings.API_V1_STR}/")
 async def api_v1_root():
     """API v1 root endpoint"""
@@ -126,6 +131,7 @@ async def api_v1_root():
         "message": "English Learning Platform API v1",
         "version": settings.VERSION,
         "endpoints": {
+            "auth": f"{settings.API_V1_STR}/auth",
             "health": "/health",
             "database_health": "/health/db",
             "docs": f"{settings.API_V1_STR}/docs" if settings.DEBUG else None

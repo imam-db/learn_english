@@ -3,7 +3,8 @@ Application configuration settings
 """
 
 from typing import List, Optional
-from pydantic import BaseSettings, validator
+from pydantic import validator
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -21,7 +22,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     
     # Database
-    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/english_learning"
+    DATABASE_URL: str = "postgresql://postgres:123456@localhost:5432/english_learning"
     DATABASE_POOL_SIZE: int = 20
     DATABASE_MAX_OVERFLOW: int = 30
     
